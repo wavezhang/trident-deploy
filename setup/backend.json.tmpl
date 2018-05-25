@@ -1,0 +1,23 @@
+{
+    "version": 1,
+    "storageDriverName": "solidfire-san",
+    "Endpoint": "https://$USER:$PASS@$MVIP/json-rpc/8.0",
+    "SVIP": "$SVIP:3260",
+    "TenantName": "$TENANT_NAME",
+    "AccessGroups": [$VAG_ID],
+    "InitiatorIFace": "default",
+    "Types": [
+        {"Type": "Default", "Qos": {"minIOPS": 50, "maxIOPS": 15000, "burstIOPS": 15000}},
+        {"Type": "Test", "Qos": {"minIOPS": 50, "maxIOPS": 20000, "burstIOPS": 20000}},
+        {"Type": "l0", "Qos": {"minIOPS": 50, "maxIOPS": 200, "burstIOPS": 300}},
+        {"Type": "l1", "Qos": {"minIOPS": 50, "maxIOPS": 500, "burstIOPS": 750}},
+        {"Type": "l2", "Qos": {"minIOPS": 50, "maxIOPS": 800, "burstIOPS": 1200}},
+        {"Type": "l3", "Qos": {"minIOPS": 50, "maxIOPS": 1000, "burstIOPS": 1500}},
+        {"Type": "l4", "Qos": {"minIOPS": 50, "maxIOPS": 2000, "burstIOPS": 3000}},
+        {"Type": "l5", "Qos": {"minIOPS": 50, "maxIOPS": 5000, "burstIOPS": 7500}},
+        {"Type": "l6", "Qos": {"minIOPS": 50, "maxIOPS": 8000, "burstIOPS": 12000}},
+        {"Type": "l7", "Qos": {"minIOPS": 50, "maxIOPS": 10000, "burstIOPS": 15000}},
+        {"Type": "l8", "Qos": {"minIOPS": 50, "maxIOPS": 15000, "burstIOPS": 22500}},
+        {"Type": "l9", "Qos": {"minIOPS": 50, "maxIOPS": 20000, "burstIOPS": 30000}}
+    ]
+}

@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1beta1
+kind: StorageClass
+metadata:
+  name: sf-NAME
+provisioner: netapp.io/trident
+parameters:
+  media: "hybrid"
+  provisioningType: "thin"
+  snapshots: "true"
+  requiredStorage: "solidfire_$SVIP:NAME"
+reclaimPolicy: Delete
+allowVolumeExpansion: true

@@ -1,0 +1,71 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: trident
+  labels:
+    app: trident.netapp.io
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: trident.netapp.io
+    spec:
+      serviceAccount: trident
+      containers:
+      - name: trident-main
+        image: netapp/trident:18.04.0
+        command:
+        - /usr/local/bin/trident_orchestrator
+        args:
+        - -etcd_v3
+        - http://127.0.0.1:8001
+        - -k8s_pod
+        #- -k8s_api_server
+        #- __KUBERNETES_SERVER__:__KUBERNETES_PORT__
+        #- -debug
+        livenessProbe:
+          failureThreshold: 3
+          exec:
+            command:
+            - curl
+            - 127.0.0.1:8000/trident/v1/backend
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          periodSeconds: 3
+      - name: etcd
+        image: quay.io/coreos/etcd:v3.1.5
+        command:
+        - /usr/local/bin/etcd
+        args:
+        - -name
+        - etcd1
+        - -advertise-client-urls
+        - http://127.0.0.1:8001
+        - -listen-client-urls
+        - http://127.0.0.1:8001
+        - -initial-advertise-peer-urls
+        - http://127.0.0.1:8002
+        - -listen-peer-urls
+        - http://127.0.0.1:8002
+        - -data-dir
+        - /var/etcd/data
+        - -initial-cluster
+        - etcd1=http://127.0.0.1:8002
+        volumeMounts:
+        - name: etcd-vol
+          mountPath: /var/etcd/data
+        livenessProbe:
+          failureThreshold: 3
+          exec:
+            command:
+            - etcdctl
+            - -endpoint=http://127.0.0.1:8001/ 
+            - cluster-health
+          initialDelaySeconds: 15
+          timeoutSeconds: 3
+      volumes:
+      - name: etcd-vol
+        persistentVolumeClaim:
+          claimName: trident

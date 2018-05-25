@@ -1,0 +1,11 @@
+MVIP=192.168.2.13
+SVIP=192.168.3.13
+USER=admin
+PASS=root1234
+VAG_NAME=test
+TENANT_NAME=test
+K8S_NODES=$(seq -f "192.168.2.%g" 11 25)
+VERSION=18.04.0
+
+# do not edit, this value will be auto updated by init scripts
+VAG_ID=3
